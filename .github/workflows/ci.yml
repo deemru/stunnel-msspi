@@ -19,7 +19,7 @@ jobs:
       shell: bash
       run: |
         git submodule update --init --recursive --depth 1
-        sudo apt update && sudo install -y autoconf-archive libssl-dev libwrap0-dev
+        sudo apt update && sudo apt install -y autoconf-archive libssl-dev libwrap0-dev
 
     - name: Download CryptoPro CSP
       env:
