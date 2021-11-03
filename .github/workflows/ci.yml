@@ -1,0 +1,43 @@
+name: ci
+on: [push]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - os: ubuntu-latest
+          platform: linux
+
+    name: CI
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup
+      shell: bash
+      run: |
+        git submodule update --init --recursive --depth 1
+
+    - name: Download CryptoPro CSP
+      env:
+        CPRO_CREDENTIALS: ${{ secrets.CPRO_CREDENTIALS }}
+      shell: bash
+      run: |
+        if [ "$RUNNER_OS" == "Linux" ]; then
+          curl https://${CPRO_CREDENTIALS}@update.cryptopro.ru/support/stunnel/dist/csp50r2/linux-amd64_deb.tgz --output linux-amd64_deb.tgz
+          tar -xvf linux-amd64_deb.tgz
+        else
+          exit 1
+        fi
+
+    - name: Build
+      env:
+        ARCH: amd64
+        ARCH_DIST: linux-amd64
+        MSSPI: yes
+        CONFIGURE_OPTIONS: --with-threads=pthread --enable-msspi
+        CSPMODE: kc1
+      run: |
+        bash -ex ./build_amd64.sh
