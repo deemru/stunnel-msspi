@@ -3,7 +3,7 @@
 
 CHROOT_DIR=/tmp/armv7-chroot
 MIRROR=http://archive.raspbian.org/raspbian
-VERSION=jessie
+VERSION=stable
 CHROOT_ARCH=armhf
 ARCH=arm
 #BUILD_DIR=/home/full/stunnel
@@ -74,7 +74,7 @@ if [ ! -e "/.chroot_is_done" ]; then
 
     # Create build dir and copy build files to our chroot environment
     sudo mkdir -p ${CHROOT_DIR}${BUILD_DIR} || exit 1
-    sudo rsync -av ${BUILD_DIR}/ ${CHROOT_DIR}${BUILD_DIR}/ || exit 1
+    sudo rsync -aq ${BUILD_DIR}/ ${CHROOT_DIR}${BUILD_DIR}/ || exit 1
 
     # Indicate chroot environment has been set up
     sudo touch ${CHROOT_DIR}/.chroot_is_done || exit 1

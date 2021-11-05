@@ -72,7 +72,7 @@ if [ ! -e "/.chroot_arm64_is_done" ]; then
 
     # Create build dir and copy build files to our chroot environment
     sudo mkdir -p ${CHROOT_DIR}${BUILD_DIR} || exit 1
-    sudo rsync -av ${BUILD_DIR}/ ${CHROOT_DIR}${BUILD_DIR}/ || exit 1
+    sudo rsync -aq ${BUILD_DIR}/ ${CHROOT_DIR}${BUILD_DIR}/ || exit 1
 
     # Indicate chroot environment has been set up
     sudo touch ${CHROOT_DIR}/.chroot_arm64_is_done || exit 1
