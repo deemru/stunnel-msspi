@@ -75,7 +75,7 @@ jobs:
         echo ::set-output name=VERSION::${GITHUB_REF#refs/*/}-${BUILD_OS}
 
     - name: Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: src/${{ steps.build.outputs.VERSION }}.tar.gz
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: src/${{ steps.build.outputs.VERSION }}.tar.gz
