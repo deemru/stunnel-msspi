@@ -7,7 +7,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build-os: [ amd64-ubuntu, amd64-centos, armv7-raspbian, aarch64-ubuntu ]
+#       build-os: [ amd64-ubuntu, amd64-centos, armv7-raspbian, aarch64-ubuntu ]
+        build-os: [ amd64-ubuntu, amd64-centos ]
         include:
         - os: ubuntu-latest
           platform: linux
@@ -46,6 +47,7 @@ jobs:
         fi
 
     - name: Build
+      id: build
       env:
         MSSPI: yes
         CONFIGURE_OPTIONS: --with-threads=pthread --enable-msspi
@@ -70,3 +72,10 @@ jobs:
         else
           exit 1
         fi
+        echo ::set-output name=VERSION::${GITHUB_REF#refs/*/}-${BUILD_OS}
+
+    - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: src/${{ steps.build.outputs.VERSION }}.tar.gz

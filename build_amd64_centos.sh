@@ -32,7 +32,7 @@ if [ "$1" = "in_docker" ]; then
             cd tests
             sudo perl test-stunnel-msspi.pl || exit 1
             cd ../src
-            tar -cvzf ${BUILD_TAG}_linux-amd64${BUILD_TAG}.tar.gz stunnel-msspi
+            tar -cvzf ${BUILD_TAG}-amd64-centos.tar.gz stunnel-msspi
             cd ..;
         fi
     fi
